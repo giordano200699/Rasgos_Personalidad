@@ -1,0 +1,35 @@
+swagger: "2.0"
+info:
+  description: "Sistema de Rasgos de la Personalidad."
+  version: "1.0.0"
+  title: "Sistema Backend para registrar los rasgos de la personalidad del usuario"
+consumes:
+  - "application/json"
+produces:
+  - "application/json"
+
+basePath: "/api"
+# Paths supported by the server application
+paths:
+  /usuario:
+    get:
+      operationId: "usuario.obtenerUsuarios"
+      tags:
+        - "Usuario"
+      summary: "Lista de Usuarios"
+      description: "Obtener una lista con todos los Usuarios registrados en el sistema."
+      responses:
+        200:
+          description: "Lista de Usuarios obtenida satisfactoriamente"
+          schema:
+            type: "array"
+            items:
+              properties:
+                usuarioId:
+                  type: "number"
+                nombres:
+                  type: "string"
+                apellidos:
+                  type: "string"
+                edad:
+                  type: "number"
