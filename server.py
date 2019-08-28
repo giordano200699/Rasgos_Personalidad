@@ -4,7 +4,12 @@ from sqlalchemy import create_engine,Column, Integer, String, ForeignKey,MetaDat
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, relationship
 
+engine = create_engine('postgresql://postgres:contra20105@localhost/rasgos',echo=True)
+Session = sessionmaker(bind=engine)
 Base = declarative_base()
+
+session = Session()
+
 
 class Usuario(Base):
 	__tablename__ = "usuario"
@@ -14,14 +19,37 @@ class Usuario(Base):
 	apellidos = Column('apellidos',String)
 	edad = Column('edad',Integer)
 
-engine = create_engine('postgresql://postgres:contra20105@localhost/rasgos')
-connection = engine.connect()
-metadata = MetaData()
-usuarioTabla = Table('usuario', metadata, autoload=True, autoload_with=engine)
-query = select([usuarioTabla])
-ResultProxy = connection.execute(query)
-ResultSet = ResultProxy.fetchall()
-print(ResultSet)
+	def __repr__(self):
+		return 'Id = '+str(self.usuarioId)+' nombres = '+self.nombres+' apellidos = '+self.apellidos+' edad = '+str(self.edad)
+
+
+
+nuevoUsuario = Usuario(nombres='Giordano',apellidos='Barbieri Lizama',edad=20)
+session.add_all([nuevoUsuario])
+usuarioBuscado = session.query(Usuario).filter_by(nombres='Giordano').first() 
+print(usuarioBuscado)
+
+#session.rollback()
+session.commit()
+
+
+#print(session.new)
+#print(nuevoUsuario is usuarioBuscado)
+#print(nuevoUsuario == usuarioBuscado)
+
+
+#print(Usuario.__table__)
+
+#Base.metadata.create_all(engine)
+#print(Base.metadata)
+
+#connection = engine.connect()
+#metadata = MetaData()
+#usuarioTabla = Table('usuario', metadata, autoload=True, autoload_with=engine)
+#query = select([usuarioTabla])
+#ResultProxy = connection.execute(query)
+#ResultSet = ResultProxy.fetchall()
+#print(ResultSet)
 
 
 # Base.metadata.create_all(bind=engine)
