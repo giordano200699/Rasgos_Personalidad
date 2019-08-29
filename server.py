@@ -62,6 +62,7 @@ session.commit()
 # 	print(usuario.nombres)
 
 # session.close()
+# comentario
 
 
 app = connexion.App(__name__, specification_dir='./')
